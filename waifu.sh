@@ -10,6 +10,12 @@ do
 	then
 		echo $1passed;
 	else
-		waifu2x-converter-cpp --force-OpenCL --model_dir /usr/lib/waifu2x/model_rgb -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
+		waifu2x-converter-cpp --force-OpenCL --model_dir /mnt/0/work/models -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
+		while [[ $? > 0 ]];
+		do
+			echo `date +%F_%T` $i Conversion Failed >> waifu2xerror.log
+			rm new/$i 
+			waifu2x-converter-cpp --force-OpenCL --model_dir /mnt/0/work/models -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
+		done
 	fi
 done
