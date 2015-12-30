@@ -45,4 +45,4 @@ isa=`echo $sizea' < '102400 | bc`
 if [[ $dur_e != "" ]]; then break;fi;
 done
 if [[ ! -d finished ]]; then mkdir finished; fi
-ffmpeg -i $in -ss $dur_s -t $dur -c:a copy -c:v libx264 -crf 12 -preset fast -metadata Author="Repacked By. LXY" finished/${in%%.*}.mkv
+ffmpeg -i $in -ss $dur_s -t $dur -c:a copy -c:v libx264 -crf 15 -preset slow -metadata Author="Repacked By. LXY" finished/${in%%.*}.mp4

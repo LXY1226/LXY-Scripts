@@ -15,19 +15,19 @@ do
 	then
 		echo $1passed;
 	else
-		waifu2x-converter-cpp --force-OpenCL --model_dir /mnt/0/work/models -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
+		waifu2x-converter-cpp -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
 		echo `date +%F_%T` $i
 		while [[ $? > 0 ]];
 		do
 			echo `date +%F_%T` $i Conversion Failed >> waifu2xerror.log
 			rm new/$i 
-			waifu2x-converter-cpp --force-OpenCL --model_dir /mnt/0/work/models -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
+			waifu2x-converter-cpp -j 2 --scale_ratio 1.5 --noise_level 1 -m noise_scale -i $i -o new/$i
 		done
 	fi
 done
 mkdir -p video/30
-nice -6 ffmpeg -framerate 59.970 -i new/out/%4d.png -c:v libx264rgb -qp0 -preset slow video/$time/$time.mkv
-nice -6 ffmpeg -framerate 59.970 -i new/out/%4d.png -c:v libx264    -crf 21 -preset slow video/$time.mkv
+nice -6 ffmpeg -framerate 59.970 -i new/out/%4d.png -c:v libx264rgb -qp 0 -preset slow video/$time/$time.mkv
+nice -6 ffmpeg -framerate 59.970 -i new/out/%4d.png -c:v libx264 -pix_fmt yuv420p -crf 21 -preset slow video/$time.mkv
 ttime=0
 rm file.txt
 touch file.txt
